@@ -13,7 +13,7 @@ export default function GameList() {
 
   const fetchGames = async () => {
     try {
-      const params = { page, limit: 5, ...filters };
+      const params = { page, limit: 20, ...filters };
       const res = await axios.get(`${API_URL}/search`, { params });
       setGames(res.data.results);
       setTotalPages(res.data.totalPages);
@@ -24,20 +24,23 @@ export default function GameList() {
 
   useEffect(() => {
     fetchGames();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, filters]);
 
   return (
-    <div>
-      <h1>Game Browser</h1>
-      <Filters onFilter={(f) => { setFilters(f); setPage(1); }} />
-      <div className="game-list">
-        {games.map(game => <GameCard key={game._id} game={game} />)}
+    <div className='bg-blue-900 h-min-screen p-3'>
+      <div className='max-w-screen-2xl flex mx-auto'>
+        <Filters onFilter={(f) => { setFilters(f); setPage(1); }} />
+        <div className="w-8/10 min-h-screen">
+          {games.map(game => <GameCard key={game._id} game={game} />)}
+        </div>
       </div>
-      <div className="pagination">
-        <button disabled={page === 1} onClick={() => setPage(p => p - 1)}>Previous</button>
+      <div className="text-gray-300 text-xl text-right space-x-3 mt-5 mr-5">
+        <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-lg w-full lg:w-auto px-5 py-2.5 text-center"
+        disabled={page === 1} onClick={() => setPage(p => p - 1)}>Back</button>
         <span>Page {page} of {totalPages}</span>
-        <button disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>Next</button>
+        <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-lg w-full lg:w-auto px-5 py-2.5 text-center"
+        disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>Next</button>
       </div>
     </div>
   );

@@ -2,13 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Game = require('../models/Game');
 
-router.get('/', async (req, res) => {
-  const games = await Game.find();
-  res.json(games);
-});
-
 router.get('/search', async (req, res) => {
-  const { name, minPrice, maxPrice, genres, windows, mac, linux, page = 1, limit = 20 } = req.query;
+  const { name, minPrice, maxPrice, genres, windows, mac, linux, sortBy = 'positive', order = 'desc', page = 1, limit = 20 } = req.query;
   const filters = {};
 
   // Filtros
@@ -31,9 +26,20 @@ router.get('/search', async (req, res) => {
   const limitNumber = parseInt(limit);
   const skip = (pageNumber - 1) * limitNumber;
 
+  const sortDirection = order === 'desc' ? -1 : 1;
+  const sortOptions = { [sortBy]: sortDirection };
+
+  const projection = {
+    name: 1,
+    price: 1,
+    header_image: 1,
+    short_description: 1,
+  };
+
   try {
     const total = await Game.countDocuments(filters); // total de Games que cumplen los filtros
-    const games = await Game.find(filters)
+    const games = await Game.find(filters, projection)
+      .sort(sortOptions)
       .skip(skip)
       .limit(limitNumber);
 
