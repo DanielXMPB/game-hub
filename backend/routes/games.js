@@ -6,17 +6,23 @@ router.get('/search', async (req, res) => {
   const { name, minPrice, maxPrice, genres, windows, mac, linux, sortBy = 'positive', order = 'desc', page = 1, limit = 20 } = req.query;
   const filters = {};
 
-  // Filtros
+  // Name
   if (name) filters.name = { $regex: name, $options: 'i' };
+
+  // Price
   if (minPrice || maxPrice) {
     filters.price = {};
     if (minPrice) filters.price.$gte = Number(minPrice);
     if (maxPrice) filters.price.$lte = Number(maxPrice);
   }
+
+  // Genres
   if (genres) {
     const genreArray = genres.split(',').map(g => g.trim());
     filters.genres = { $in: genreArray };
   }
+
+  // Systems
   if (windows !== undefined) filters.windows = windows === 'true';
   if (mac !== undefined) filters.mac = mac === 'true';
   if (linux !== undefined) filters.linux = linux === 'true';
@@ -34,10 +40,11 @@ router.get('/search', async (req, res) => {
     price: 1,
     header_image: 1,
     short_description: 1,
+    positive: 1,
   };
 
   try {
-    const total = await Game.countDocuments(filters); // total de Games que cumplen los filtros
+    const total = await Game.countDocuments(filters);
     const games = await Game.find(filters, projection)
       .sort(sortOptions)
       .skip(skip)

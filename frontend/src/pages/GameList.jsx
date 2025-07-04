@@ -35,11 +35,11 @@ export default function GameList() {
           {games.map(game => <GameCard key={game._id} game={game} />)}
         </div>
       </div>
-      <div className="text-gray-300 text-xl text-right space-x-3 mt-5 mr-5">
-        <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-lg w-full lg:w-auto px-5 py-2.5 text-center"
+      <div className="text-gray-300 text-right space-x-3 mt-5 mr-5">
+        <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 font-medium rounded-lg text-lg w-full lg:w-auto px-4 py-2 text-center"
         disabled={page === 1} onClick={() => setPage(p => p - 1)}>Back</button>
         <span>Page {page} of {totalPages}</span>
-        <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-lg w-full lg:w-auto px-5 py-2.5 text-center"
+        <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 font-medium rounded-lg text-lg w-full lg:w-auto px-4 py-2 text-center"
         disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>Next</button>
       </div>
     </div>
