@@ -29,20 +29,20 @@ export default function Filters({ onFilter }) {
     <div className="w-2/10 h-full p-5 mx-2 my-1 border-gray-700 rounded-2xl bg-blue-950">
       <form className="" onSubmit={handleSubmit}>
         <div className="w-full max-w-sm min-w-[200px] mb-4">
-          <label className="text-lg text-gray-400 top-3 -z-10 font-bold">Name</label>
+          <label className="text-lg text-gray-400 font-bold">Name</label>
           <input className="mt-2 w-full bg-transparent text-gray-400 text-base border border-gray-400 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
             value={name} onChange={e => setName(e.target.value)}
           />
         </div>
         <div className="grid md:grid-cols-2 md:gap-6">
           <div className="relative z-0 w-full mb-5 group">
-            <label className="text-lg text-gray-400 top-3 -z-10 origin-[0] font-bold">Min Price</label>
+            <label className="text-lg text-gray-400 font-bold">Min Price</label>
             <input className="mt-2 w-full bg-transparent text-gray-400 text-base border border-gray-400 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
               type="number" value={minPrice} onChange={e => setMinPrice(e.target.value)}
             />
           </div>
           <div className="relative z-0 w-full mb-5 group">
-            <label className="text-lg text-gray-400 top-3 -z-10 origin-[0] font-bold">Max Price</label>
+            <label className="text-lg text-gray-400 font-bold">Max Price</label>
             <input className="mt-2 w-full bg-transparent text-gray-400 text-base border border-gray-400 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
               type="number" value={maxPrice} onChange={e => setMaxPrice(e.target.value)}
             />
@@ -70,8 +70,8 @@ export default function Filters({ onFilter }) {
                 <option value="Simulation" className="text-gray-700">Simulation</option>
                 <option value="Indie" className="text-gray-700">Indie</option>
               </select>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-white">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-white">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
               </svg>
             </div>
           </div>

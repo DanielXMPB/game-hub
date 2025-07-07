@@ -1,6 +1,13 @@
+import { useNavigate } from 'react-router-dom';
+
 export default function GameCard({ game }) {
   const formattedPositive = game.positive?.toLocaleString();
   const formattedPrice = game.price?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const navigate = useNavigate();
+
+  const goToData = () => {
+    navigate(`/game/${game._id}`);
+  };
 
   return (
     <div className="w-full">
@@ -16,7 +23,8 @@ export default function GameCard({ game }) {
             <p className="mb-3 text-sm text-gray-400">{formattedPositive}</p>
           </div>
           <button className="bg-green-700 p-3 w-32 font-normal text-white rounded-md text-center
-          border border-gray-600 hover:bg-green-600">
+          border border-gray-600 hover:bg-green-600"
+          onClick={goToData}>
             {game.price === 0 ? 'Free' : 'Price: $' + formattedPrice}
           </button>
         </div>

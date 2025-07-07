@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Game = require('../models/Game');
+const mongoose = require('mongoose');
 
 router.get('/search', async (req, res) => {
   const { name, minPrice, maxPrice, genres, windows, mac, linux, sortBy = 'positive', order = 'desc', page = 1, limit = 20 } = req.query;
   const filters = {};
+
+  // Id
+  if (id) filters._id = id
 
   // Name
   if (name) filters.name = { $regex: name, $options: 'i' };
@@ -60,6 +64,29 @@ router.get('/search', async (req, res) => {
   } catch (err) {
     console.error('Error searching for games:', err);
     res.status(500).json({ error: 'An error occurred while searching for games' });
+  }
+});
+
+router.get('/getData', async (req, res) => {
+  const { id } = req.query;
+
+  if (!id) {
+    return res.status(400).json({ error: 'ID is required' });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  try {
+    const game = await Game.findById(id);
+    if (!game) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+    res.json(game);
+  } catch (err) {
+    console.error('Error fetching game by ID:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
