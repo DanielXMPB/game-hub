@@ -7,9 +7,6 @@ router.get('/search', async (req, res) => {
   const { name, minPrice, maxPrice, genres, windows, mac, linux, sortBy = 'positive', order = 'desc', page = 1, limit = 20 } = req.query;
   const filters = {};
 
-  // Id
-  if (id) filters._id = id
-
   // Name
   if (name) filters.name = { $regex: name, $options: 'i' };
 
@@ -27,9 +24,14 @@ router.get('/search', async (req, res) => {
   }
 
   // Systems
-  if (windows !== undefined) filters.windows = windows === 'true';
-  if (mac !== undefined) filters.mac = mac === 'true';
-  if (linux !== undefined) filters.linux = linux === 'true';
+  const systemFilters = [];
+  if (windows === 'true') systemFilters.push('windows');
+  if (mac === 'true') systemFilters.push('mac');
+  if (linux === 'true') systemFilters.push('linux');
+
+  if (systemFilters.length > 0) {
+    filters.systems = { $in: systemFilters };
+  }
 
   // Paginación
   const pageNumber = parseInt(page);
@@ -87,6 +89,35 @@ router.get('/getData', async (req, res) => {
   } catch (err) {
     console.error('Error fetching game by ID:', err);
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Only used for changes boolean systems to array systems
+router.put('/change-systems', async (req, res) => {
+  try {
+    const records = await Game.find({}, { _id: 1, windows: 1, linux: 1, mac: 1 });
+
+    for (const record of records) {
+      const newSystems = [];
+
+      if (record.windows) newSystems.push('windows');
+      if (record.linux) newSystems.push('linux');
+      if (record.mac) newSystems.push('mac');
+
+      record.systems = newSystems;
+
+      // Delete boolean fields
+      delete record.windows;
+      delete record.linux;
+      delete record.mac;
+
+      await record.save();
+    }
+
+    res.json({ message: 'Migración completada' });
+  } catch (error) {
+    console.error('error:', error);
+    res.status(500).json({ error: 'Error en la migración' });
   }
 });
 
