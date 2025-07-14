@@ -29,7 +29,7 @@ export default function GameList() {
 
   return (
     <div className='bg-blue-900 h-min-screen p-3'>
-      <div className='max-w-screen-2xl flex mx-auto'>
+      <div className='max-w-screen-xl flex mx-auto'>
         <Filters onFilter={(f) => { setFilters(f); setPage(1); }} />
         <div className="w-8/10 min-h-screen">
           {games.map(game => <GameCard key={game._id} game={game} />)}

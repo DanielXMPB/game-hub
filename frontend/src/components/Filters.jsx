@@ -52,8 +52,8 @@ export default function Filters({ onFilter }) {
         <div className="flex my-4 space-x-3">
           <CustomCheckbox checked={windows} onChange={(e) => setWindows(e.target.checked)} label="Windows" />
           <CustomCheckbox checked={linux} onChange={(e) => setLinux(e.target.checked)} label="Linux" />
-          <CustomCheckbox checked={mac} onChange={(e) => setMac(e.target.checked)} label="Mac" />
         </div>
+        <CustomCheckbox checked={mac} onChange={(e) => setMac(e.target.checked)} label="Mac" />
         <div className='flex flex-col my-4'>
           <div className="w-full max-w-sm min-w-[200px]">
             <label className="text-lg text-gray-400 font-bold">Genres</label>
