@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { ImageCarousel } from '../components/ImageCarousel';
+import { RecommendationCard } from '../components/RecommendationCard';
 import { Window, MacOs, Linux } from '../assets/icons';
 import axios from 'axios';
 
@@ -10,6 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function GameData() {
     const { id } = useParams();
     const [game, setGame] = useState(null);
+    const [recommendations, setRecommendations] = useState([]);
 
     useEffect(() => {
         axios.get(`${API_URL}/getData`, { params: { id } })
@@ -17,11 +19,24 @@ export default function GameData() {
             .catch(err => console.error('Error loading game:', err));
     }, [id]);
 
+    const tagArray = game ? Object.entries(game.tags) : [];
+    const tagNames = tagArray.map(([key]) => key);
+
+    useEffect(() => {
+        if (game && tagNames.length > 0) {
+            axios.get(`${API_URL}/searchRecommendation`, {
+                params: { tags: JSON.stringify(tagNames.slice(0, 3)), _id: game._id }
+            })
+                .then(res => setRecommendations(res.data.results))
+                .catch(err => console.error('Error fetching recommendations:', err));
+        }
+        // eslint-disable-next-line
+    }, [game]);
+
     if (!game) return <div>Loading...</div>;
 
-    const tagArray = Object.entries(game.tags);
-
-    const tagNames = tagArray.map(([key]) => key);
+    const totalReviews = game.positive + game.negative;
+    const positivePercent = totalReviews === 0 ? 0 : Math.round((game.positive / totalReviews) * 100);
 
     return (
         <div className='bg-blue-900 min-h-screen'>
@@ -33,15 +48,19 @@ export default function GameData() {
                     <div>
                         <img src={game.header_image} alt={game.name} className="mt-2 mb-4 w-full" />
                         <p className='text-gray-400'><strong className='text-blue-500'>Recommendations:</strong> {game.recommendations}</p>
-                        <p className='text-gray-400'><strong className='text-blue-500'>Positive Reviews:</strong> {game.positive}</p>
-                        <p className='text-gray-400'><strong className='text-blue-500'>Negative Reviews:</strong> {game.negative}</p>
+                        <p className='text-gray-400'>
+                            <strong className='text-blue-500'>Reviews:</strong> {totalReviews}{" "}
+                            <span className="ml-2 text-green-400">
+                                ({positivePercent}%)
+                            </span>
+                        </p>
                         <p className='text-gray-400'><strong className='text-blue-500'>Release Date:</strong> {game.release_date}</p>
                         <p className='text-gray-400'><strong className='text-blue-500'>Developers:</strong> {game.developers}</p>
                         <p className='text-gray-400'><strong className='text-blue-500'>publishers:</strong> {game.publishers}</p>
                         <p className='text-gray-400'><strong className='text-blue-500'>Genres:</strong></p>
                         <div className="flex flex-wrap gap-2 list-none p-0">
                             {game.genres.map((genre) => (
-                                <span className="bg-blue-500 p-1 my-1 mr-1 rounded-md border-1 border-gray-400 text-gray-300 text-md" key={genre} >{genre}</span>
+                                <span className="bg-blue-500 m-0.5 p-0.5 rounded-md border-1 border-gray-400 text-gray-300 text-md" key={genre} >{genre}</span>
                             ))}
                         </div>
                         <p className='text-gray-400 flex items-center gap-2'><strong className='text-blue-500'>Platforms:</strong></p>
@@ -56,7 +75,6 @@ export default function GameData() {
                                 <Linux className="inline w-6 h-6 m-1" title="Linux" />
                             )}
                         </div>
-                        <p className="text-gray-400"><strong className='text-blue-500'>Price:</strong> {game.price === 0 ? 'Free' : ' $' + game.price}</p>
                     </div>
                 </div>
                 <div className='flex w-full mb-4'>
@@ -98,7 +116,22 @@ export default function GameData() {
                                 <span className="bg-blue-500 p-1 rounded-lg border-1 border-gray-400 text-gray-300 text-md" key={index}>{language}</span>
                             ))}
                         </div>
-                        <p className='text-gray-400 mt-1'><strong className='text-blue-500'>Achievements:</strong> {game.achievements}</p>
+                        {game.achievements !== 0 && (
+                            <p className='text-gray-400 mt-1'><strong className='text-blue-500'>Achievements:</strong> {game.achievements}</p>
+                        )}
+                    </div>
+                </div>
+                <div>
+                    <p><strong className='text-blue-500'>Recommendations:</strong></p>
+                    <div className='flex flex-wrap gap-4 mt-2'>
+                        {recommendations.map((rec) => (
+                            <RecommendationCard
+                                key={rec._id}
+                                name={rec.name}
+                                price={rec.price}
+                                image={rec.header_image}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

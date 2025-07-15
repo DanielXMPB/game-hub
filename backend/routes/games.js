@@ -121,4 +121,35 @@ router.put('/change-systems', async (req, res) => {
   }
 });
 
+router.get('/searchRecommendation', async (req, res) => {
+  const { _id, tags } = req.query;
+
+  const filters = {};
+
+  filters._id = { $ne: _id };
+  if (tags) {
+    const tagArray = JSON.parse(tags);
+    tagArray.forEach(tag => {
+      filters[`tags.${tag}`] = { $exists: true };
+    });
+  }
+
+  const projection = {
+    name: 1,
+    price: 1,
+    header_image: 1,
+    positive: 1,
+  };
+
+  try {
+    const relatedItems = await Game.find(filters, projection)
+      .sort({ positive: -1 })
+      .limit(4);
+    res.json({ results: relatedItems });
+  } catch (err) {
+    console.error('Error searching for games:', err);
+    res.status(500).json({ error: 'An error occurred while searching for games' });
+  }
+});
+
 module.exports = router;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CustomCheckbox from './checkSystem.jsx';
+import CustomCheckbox from './CheckSystem.jsx';
 
 export default function Filters({ onFilter }) {
   const [name, setName] = useState('');
