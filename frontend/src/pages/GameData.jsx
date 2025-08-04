@@ -38,92 +38,101 @@ export default function GameData() {
     const totalReviews = game.positive + game.negative;
     const positivePercent = totalReviews === 0 ? 0 : Math.round((game.positive / totalReviews) * 100);
 
+    const applyFilters = (filter) => {
+        window.location.href = `/list?${filter}`;
+    };
+
     return (
-        <div className='bg-blue-900 min-h-screen'>
+        <div className='bg-gradient-to-r from-tc3 via-tc4 to-tc3 font-nunito min-h-screen'>
             <Navbar />
             <div className="max-w-screen-xl mx-auto py-2 mt-2">
-                <h1 className="text-3xl text-white font-bold mb-2">{game.name}</h1>
+                <h1 className="text-3xl text-tc6 font-bold mb-2">{game.name}</h1>
                 <div className='flex'>
                     <ImageCarousel screenshots={game.screenshots} />
-                    <div>
-                        <img src={game.header_image} alt={game.name} className="mt-2 mb-4 w-full" />
-                        <p className='text-gray-400'><strong className='text-blue-500'>Recommendations:</strong> {game.recommendations}</p>
-                        <p className='text-gray-400'>
-                            <strong className='text-blue-500'>Reviews:</strong> {totalReviews}{" "}
-                            <span className="ml-2 text-green-400">
-                                ({positivePercent}%)
-                            </span>
-                        </p>
-                        <p className='text-gray-400'><strong className='text-blue-500'>Release Date:</strong> {game.release_date}</p>
-                        <p className='text-gray-400'><strong className='text-blue-500'>Developers:</strong> {game.developers}</p>
-                        <p className='text-gray-400'><strong className='text-blue-500'>publishers:</strong> {game.publishers}</p>
-                        <p className='text-gray-400'><strong className='text-blue-500'>Genres:</strong></p>
-                        <div className="flex flex-wrap gap-2 list-none p-0">
-                            {game.genres.map((genre) => (
-                                <span className="bg-blue-500 m-0.5 p-0.5 rounded-md border-1 border-gray-400 text-gray-300 text-md" key={genre} >{genre}</span>
-                            ))}
-                        </div>
-                        <p className='text-gray-400 flex items-center gap-2'><strong className='text-blue-500'>Platforms:</strong></p>
-                        <div className="text-gray-400 flex items-center gap-2">
-                            {game.systems?.includes('windows') && (
-                                <Window className="inline w-6 h-6 m-1" title="Windows" />
-                            )}
-                            {game.systems?.includes('mac') && (
-                                <MacOs className="inline w-6 h-6 m-1" title="MacOS" />
-                            )}
-                            {game.systems?.includes('linux') && (
-                                <Linux className="inline w-6 h-6 m-1" title="Linux" />
-                            )}
+                    <div className="border-1 border-tc6 rounded-sm mt-2 bg-tc2/70 shadow-xl">
+                        <img src={game.header_image} alt={game.name} className="mb-4 w-full rounded-t-sm" />
+                        <div className='pl-2'>
+                            <p className='text-tc6'><strong className='text-tc5'>Recommendations:</strong> {game.recommendations}</p>
+                            <p className='text-tc6'>
+                                <strong className='text-tc5'>Reviews:</strong> {totalReviews}{" "}
+                                <span className="ml-2 text-green-400">
+                                    ({positivePercent}%)
+                                </span>
+                            </p>
+                            <p className='text-tc6'><strong className='text-tc5'>Release Date:</strong> {game.release_date}</p>
+                            <p className='text-tc6'><strong className='text-tc5'>Developers:</strong> {game.developers}</p>
+                            <p className='text-tc6'><strong className='text-tc5'>publishers:</strong> {game.publishers}</p>
+                            <p className='text-tc6'><strong className='text-tc5'>Platforms:</strong></p>
+                            <div className="text-tc6 flex items-center gap-2">
+                                {game.systems?.includes('windows') && (
+                                    <Window className="inline w-6 h-6 m-1" title="Windows" />
+                                )}
+                                {game.systems?.includes('mac') && (
+                                    <MacOs className="inline w-6 h-6 m-1" title="MacOS" />
+                                )}
+                                {game.systems?.includes('linux') && (
+                                    <Linux className="inline w-6 h-6 m-1" title="Linux" />
+                                )}
+                            </div>
+                            <p className='text-tc6 flex items-center gap-2'><strong className='text-tc5'>Genres:</strong></p>
+                            <div className="flex flex-wrap gap-2 list-none p-0">
+                                {game.genres.map((genre) => (
+                                    <a onClick={() => applyFilters(`genres=${genre}`)} className="bg-tc2 m-0.5 p-0.5 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={genre} >{genre}</a>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className='flex w-full mb-4'>
                     <div className='w-7/10 p-2'>
-                        <div className='text-gray-400'>
-                            <h2>Available Packages</h2>
+                        <div className='text-tc6'>
                             {game.packages.map((pkg, index) => (
-                                <div key={index} style={{ marginBottom: '1rem' }}>
+                                <div key={index}>
                                     <h3>{pkg.title}</h3>
                                     {pkg.subs.map((sub, subIndex) => (
-                                        <div key={subIndex} style={{ marginLeft: '1rem' }}>
-                                            <p><strong>{sub.text}</strong></p>
-                                            {sub.description && <p>{sub.description}</p>}
-                                            <p>Price: ${sub.price}</p>
+                                        <div key={subIndex} className='border-1 border-tc6 rounded-sm p-2 my-2 mx-6 bg-tc2/70 shadow-xl'>
+                                            <p className='text-xl'><strong>{sub.text}</strong></p>
+                                            <p className='text-sm'>{sub.description}</p>
+                                            <div className='justify-end flex mt-0.5'>
+                                                <div className='text-green-400 border-1 border-tc6 rounded-sm p-2 mr-1 bg-tc2/80 w-fit'>
+                                                    {sub.price === 0 ? 'Free' : ' $' + sub.price}
+                                                </div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
                             ))}
                         </div>
-                        <div className='text-gray-400 mt-1'><h2>About:</h2></div>
-                        <p className='text-gray-400 mt-2'>{game.about_the_game}</p>
+                        <div className='text-tc6 mt-5 mb-1 pb-1 border-b-1 border-tc6'><strong>About:</strong></div>
+                        <p className='text-tc6 mt-2'>{game.about_the_game}</p>
                     </div>
                     <div className='w-3/10 p-1'>
-                        <p className='text-gray-400 mt-1'><strong className='text-blue-500'>Categories:</strong></p>
+                        {game.achievements !== 0 && (
+                            <p className='text-tc6 mt-1'><strong className='text-tc2'>Achievements:</strong> {game.achievements}</p>
+                        )}
+                        <p className='text-tc6 mt-1'><strong className='text-tc2'>Categories:</strong></p>
                         <div className="flex flex-wrap gap-2 mt-2 list-none p-0">
                             {game.categories.map((tag, index) => (
-                                <span className="bg-blue-500 p-1 rounded-lg border-1 border-gray-400 text-gray-300 text-md" key={index}>{tag}</span>
+                                <a onClick={() => applyFilters(`categories=${tag}`)} className="bg-tc2 m-0.5 p-0.5 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={index}>{tag}</a>
                             ))}
                         </div>
-                        <p className='text-gray-400 mt-1'><strong className='text-blue-500'>Tags:</strong></p>
+                        <p className='text-tc6 mt-1'><strong className='text-tc2'>Tags:</strong></p>
                         <div className="flex flex-wrap gap-2 mt-2 list-none p-0">
                             {tagNames.map((tag, index) => (
-                                <span className="bg-blue-500 p-1 rounded-lg border-1 border-gray-400 text-gray-300 text-md" key={index}>{tag}</span>
+                                <a onClick={() => applyFilters(`tags=${tag}`)} className="bg-tc2 m-0.5 p-0.5 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={index}>{tag}</a>
                             ))}
                         </div>
-                        <p className='text-gray-400 mt-1'><strong className='text-blue-500'>Languages:</strong></p>
+                        <p className='text-tc6 mt-1'><strong className='text-tc2'>Languages:</strong></p>
                         <div className="flex flex-wrap gap-2 mt-2 list-none p-0">
                             {game.supported_languages.map((language, index) => (
-                                <span className="bg-blue-500 p-1 rounded-lg border-1 border-gray-400 text-gray-300 text-md" key={index}>{language}</span>
+                                <span className="bg-tc2 p-1 rounded-lg border-1 border-gray-400 text-gray-300 text-md" key={index}>{language}</span>
                             ))}
                         </div>
-                        {game.achievements !== 0 && (
-                            <p className='text-gray-400 mt-1'><strong className='text-blue-500'>Achievements:</strong> {game.achievements}</p>
-                        )}
                     </div>
                 </div>
                 <div>
-                    <p><strong className='text-blue-500'>Recommendations:</strong></p>
-                    <div className='flex flex-wrap gap-4 mt-2'>
+                    <p><strong className='text-tc6'>Recommendations:</strong></p>
+                    <div className='flex gap-4 mt-2'>
                         {recommendations.map((rec) => (
                             <RecommendationCard
                                 key={rec._id}

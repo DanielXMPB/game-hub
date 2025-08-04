@@ -4,7 +4,21 @@ const Game = require('../models/Game');
 const mongoose = require('mongoose');
 
 router.get('/search', async (req, res) => {
-  const { name, minPrice, maxPrice, genres, windows, mac, linux, sortBy = 'positive', order = 'desc', page = 1, limit = 20 } = req.query;
+  const {
+    name,
+    minPrice,
+    maxPrice,
+    genres,
+    windows,
+    mac,
+    linux,
+    categories,
+    tags,
+    sortBy = 'positive',
+    order = 'desc',
+    page = 1,
+    limit = 20
+  } = req.query;
   const filters = {};
 
   // Name
@@ -18,10 +32,13 @@ router.get('/search', async (req, res) => {
   }
 
   // Genres
-  if (genres) {
-    const genreArray = genres.split(',').map(g => g.trim());
-    filters.genres = { $in: genreArray };
-  }
+  if (genres) filters.genres = { $in: genres };
+
+  // Categories
+  if (categories) filters.categories = { $in: categories };
+
+  // Tags
+  if (tags) filters[`tags.${tags}`] = { $exists: true };
 
   // Systems
   const systemFilters = [];

@@ -36,7 +36,7 @@ export function ImageCarousel({ screenshots }) {
         <div className="relative w-[85%] overflow-hidden py-2 mr-4">
             <button
                 type="button"
-                className="absolute left-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center p-2 transition focus-visible:outline-2 focus-visible:outline-offset-2 active:outline-offset-0 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-950/60 focus-visible:outline-white"
+                className="absolute left-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center p-2 transition focus-visible:outline-2 focus-visible:outline-offset-2 active:outline-offset-0 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-950/60 focus-visible:outline-white cursor-pointer"
                 aria-label="previous slide"
                 onClick={previous}
             >
@@ -46,7 +46,7 @@ export function ImageCarousel({ screenshots }) {
             </button>
             <button
                 type="button"
-                className="absolute right-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center p-2 transition focus-visible:outline-2 focus-visible:outline-offset-2 active:outline-offset-0 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-950/60 focus-visible:outline-white"
+                className="absolute right-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center p-2 transition focus-visible:outline-2 focus-visible:outline-offset-2 active:outline-offset-0 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-950/60 focus-visible:outline-white cursor-pointer"
                 aria-label="next slide"
                 onClick={next}
             >

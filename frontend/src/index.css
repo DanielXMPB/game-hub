@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+@theme {
+    --color-tc1: #0A0F2C;
+    --color-tc2: #102C57;
+    --color-tc3: #274472;
+    --color-tc4: #41729F;
+    --color-tc5: #5885AF;
+    --color-tc6: #C3E0E5;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    font-style: normal;
+    src: url(../assets/fonts/Nunito.woff2) format('woff2');
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-tc4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-tc5);
+}
