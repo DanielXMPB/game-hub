@@ -14,16 +14,13 @@ export default function Navbar() {
                             <a href="/" className="block py-2 px-3 bg-blue-700 rounded-sm md:bg-transparent md:p-0 text-tc6 md:text-blue-500" aria-current="page">Home</a>
                         </li>
                         <li>
+                            <a href="/list" className="block py-2 px-3 text-tc6 rounded-sm hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 hover:text-tc6">List</a>
+                        </li>
+                        <li>
                             <a href="/" className="block py-2 px-3 text-tc6 rounded-sm hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 hover:text-tc6">About</a>
                         </li>
                         <li>
                             <a href="/" className="block py-2 px-3 text-tc6 rounded-sm hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 hover:text-tc6">Services</a>
-                        </li>
-                        <li>
-                            <a href="/" className="block py-2 px-3 text-tc6 rounded-sm hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 hover:text-tc6">Pricing</a>
-                        </li>
-                        <li>
-                            <a href="/" className="block py-2 px-3 text-tc6 rounded-sm hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0 hover:text-tc6">Contact</a>
                         </li>
                     </ul>
                 </div>

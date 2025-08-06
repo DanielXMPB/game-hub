@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { useCallback } from 'react';
 import axios from 'axios';
-import GameCard from '../components/GameCard';
+import GameCard from '../components/ui/GameCard';
 import Filters from '../components/Filters';
+import Navbar from '../components/Navbar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -39,20 +40,23 @@ export default function GameList() {
   }, [fetchGames]);
 
   return (
-    <div className='h-min-screen p-3'>
-      <div className='max-w-screen-xl flex flex-col mx-auto'>
-        <div className='flex'>
-          <Filters onFilter={(f) => { setFilters(f); setPage(1); }} genres={genres} categories={categories} tags={tags} />
-          <div className="w-8/10 h-198 overflow-y-auto scroll-bg-tc3">
-            {games.map(game => <GameCard key={game._id} game={game} />)}
+    <div className='h-screen bg-gradient-to-r from-tc3 via-tc4 to-tc3 font-nunito'>
+      <Navbar />
+      <div className='h-min-screen p-3'>
+        <div className='max-w-screen-xl flex flex-col mx-auto'>
+          <div className='flex'>
+            <Filters onFilter={(f) => { setFilters(f); setPage(1); }} genres={genres} categories={categories} tags={tags} />
+            <div className="w-8/10 h-198 overflow-y-auto scroll-bg-tc3">
+              {games.map(game => <GameCard key={game._id} game={game} />)}
+            </div>
           </div>
-        </div>
-        <div className="text-gray-300 text-right space-x-3 mt-5 mr-5">
-          <button className="text-white bg-tc3 border-1 border-gray-400 hover:bg-tc4 font-medium rounded-lg text-lg w-full lg:w-auto px-4 py-2 text-center"
-            disabled={page === 1} onClick={() => setPage(p => p - 1)}>Back</button>
-          <span>Page {page} of {totalPages}</span>
-          <button className="text-white bg-tc3 border-1 border-gray-400 hover:bg-tc4 font-medium rounded-lg text-lg w-full lg:w-auto px-4 py-2 text-center"
-            disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>Next</button>
+          <div className="text-gray-300 text-right space-x-3 mt-5 mr-5">
+            <button className="text-white bg-tc3 border-1 border-gray-400 hover:bg-tc4 font-medium rounded-lg text-lg w-full lg:w-auto px-4 py-2 text-center"
+              disabled={page === 1} onClick={() => setPage(p => p - 1)}>Back</button>
+            <span>Page {page} of {totalPages}</span>
+            <button className="text-white bg-tc3 border-1 border-gray-400 hover:bg-tc4 font-medium rounded-lg text-lg w-full lg:w-auto px-4 py-2 text-center"
+              disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>Next</button>
+          </div>
         </div>
       </div>
     </div>

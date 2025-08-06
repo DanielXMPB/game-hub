@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { CarouselGameCard } from "./ui/CarouselGameCard";
 
-export function ImageCarousel({ screenshots }) {
+export function GameCarousel({ games }) {
 
-    const slides = screenshots && screenshots.length > 0
-        ? screenshots.map((src, idx) => ({
-            imgSrc: src,
-            imgAlt: `Screenshot ${idx + 1}`,
+    const slides = games && games.length > 0
+        ? games.map((game) => ({
+            imgSrc: game.header_image,
         }))
         : [];
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -33,7 +33,7 @@ export function ImageCarousel({ screenshots }) {
     };
 
     return (
-        <div className="relative w-[85%] overflow-hidden py-2 mr-4">
+        <div className="relative w-full overflow-hidden py-2 mr-4">
             <button
                 type="button"
                 className="absolute left-5 top-1/2 z-20 flex rounded-full -translate-y-1/2 items-center justify-center p-2 transition focus-visible:outline-2 focus-visible:outline-offset-2 active:outline-offset-0 bg-neutral-950/40 text-neutral-300 hover:bg-neutral-950/60 focus-visible:outline-white cursor-pointer"
@@ -61,11 +61,7 @@ export function ImageCarousel({ screenshots }) {
                         className={`absolute inset-0 transition-opacity duration-1000 ${currentSlideIndex === index ? "opacity-100 z-10" : "opacity-0 z-0"}`}
                         aria-hidden={currentSlideIndex !== index}
                     >
-                        <img
-                            className="absolute w-full h-full inset-0 object-cover text-neutral-300 rounded-xl"
-                            src={slide.imgSrc}
-                            alt={slide.imgAlt}
-                        />
+                        <CarouselGameCard id={games[index]._id} />
                     </div>
                 ))}
                 <div className="absolute rounded-sm bottom-3 md:bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-4 md:gap-3 px-1.5 py-1 md:px-2 bg-blue-900/75" role="group" aria-label="slides">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CustomCheckbox from './CheckSystem.jsx';
+import CustomCheckbox from './ui/CheckSystem.jsx';
 
 export default function Filters({ onFilter, genres, categories, tags }) {
   const [name, setName] = useState('');
@@ -30,7 +30,7 @@ export default function Filters({ onFilter, genres, categories, tags }) {
   };
 
   return (
-    <div className="w-2/10 h-full p-5 mx-2 my-1 bg-tc2 rounded-2xl border border-gray-600">
+    <div className="w-2/10 h-full p-5 mx-2 my-1 bg-tc2 rounded-2xl shadow-xl">
       <form className="" onSubmit={handleSubmit}>
         <div className="w-full max-w-sm min-w-[200px] mb-4">
           <label className="text-lg text-blue-100 font-bold">Name</label>

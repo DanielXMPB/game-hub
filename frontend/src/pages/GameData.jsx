@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { ImageCarousel } from '../components/ImageCarousel';
-import { RecommendationCard } from '../components/RecommendationCard';
+import { SmallGameCard } from '../components/ui/SmallGameCard';
 import { Window, MacOs, Linux } from '../assets/icons';
 import axios from 'axios';
 
@@ -49,7 +49,7 @@ export default function GameData() {
                 <h1 className="text-3xl text-tc6 font-bold mb-2">{game.name}</h1>
                 <div className='flex'>
                     <ImageCarousel screenshots={game.screenshots} />
-                    <div className="border-1 border-tc6 rounded-sm mt-2 bg-tc2/70 shadow-xl">
+                    <div className=" rounded-sm mt-2 bg-tc2/70 shadow-xl">
                         <img src={game.header_image} alt={game.name} className="mb-4 w-full rounded-t-sm" />
                         <div className='pl-2'>
                             <p className='text-tc6'><strong className='text-tc5'>Recommendations:</strong> {game.recommendations}</p>
@@ -77,7 +77,7 @@ export default function GameData() {
                             <p className='text-tc6 flex items-center gap-2'><strong className='text-tc5'>Genres:</strong></p>
                             <div className="flex flex-wrap gap-2 list-none p-0">
                                 {game.genres.map((genre) => (
-                                    <a onClick={() => applyFilters(`genres=${genre}`)} className="bg-tc2 m-0.5 p-0.5 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={genre} >{genre}</a>
+                                    <a onClick={() => applyFilters(`genres=${genre}`)} className="bg-tc2 m-0.5 p-1 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={genre} >{genre}</a>
                                 ))}
                             </div>
                         </div>
@@ -88,7 +88,7 @@ export default function GameData() {
                         <div className='text-tc6'>
                             {game.packages.map((pkg, index) => (
                                 <div key={index}>
-                                    <h3>{pkg.title}</h3>
+                                    <h3 className='text-lg font-bold'>{pkg.title}</h3>
                                     {pkg.subs.map((sub, subIndex) => (
                                         <div key={subIndex} className='border-1 border-tc6 rounded-sm p-2 my-2 mx-6 bg-tc2/70 shadow-xl'>
                                             <p className='text-xl'><strong>{sub.text}</strong></p>
@@ -113,13 +113,13 @@ export default function GameData() {
                         <p className='text-tc6 mt-1'><strong className='text-tc2'>Categories:</strong></p>
                         <div className="flex flex-wrap gap-2 mt-2 list-none p-0">
                             {game.categories.map((tag, index) => (
-                                <a onClick={() => applyFilters(`categories=${tag}`)} className="bg-tc2 m-0.5 p-0.5 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={index}>{tag}</a>
+                                <a onClick={() => applyFilters(`categories=${tag}`)} className="bg-tc2 m-0.5 p-1 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={index}>{tag}</a>
                             ))}
                         </div>
                         <p className='text-tc6 mt-1'><strong className='text-tc2'>Tags:</strong></p>
                         <div className="flex flex-wrap gap-2 mt-2 list-none p-0">
                             {tagNames.map((tag, index) => (
-                                <a onClick={() => applyFilters(`tags=${tag}`)} className="bg-tc2 m-0.5 p-0.5 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={index}>{tag}</a>
+                                <a onClick={() => applyFilters(`tags=${tag}`)} className="bg-tc2 m-0.5 p-1 rounded-md border-1 border-tc6 text-tc6 text-md hover:bg-tc3 cursor-pointer" key={index}>{tag}</a>
                             ))}
                         </div>
                         <p className='text-tc6 mt-1'><strong className='text-tc2'>Languages:</strong></p>
@@ -130,12 +130,13 @@ export default function GameData() {
                         </div>
                     </div>
                 </div>
-                <div>
-                    <p><strong className='text-tc6'>Recommendations:</strong></p>
-                    <div className='flex gap-4 mt-2'>
+                <div className='mb-2 pb-5 pt-2 px-4 bg-tc3/80 rounded-lg shadow-xl'>
+                    <p><strong className='text-2xl text-tc6'>Recommendations:</strong></p>
+                    <div className='flex gap-4 mt-3'>
                         {recommendations.map((rec) => (
-                            <RecommendationCard
+                            <SmallGameCard
                                 key={rec._id}
+                                id={rec._id}
                                 name={rec.name}
                                 price={rec.price}
                                 image={rec.header_image}

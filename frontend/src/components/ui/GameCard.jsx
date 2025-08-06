@@ -8,7 +8,7 @@ export default function GameCard({ game }) {
 
   return (
     <div className="w-full">
-      <a className="flex items-center m-1 border rounded-lg flex-row border-gray-600 bg-tc2">
+      <a className="flex items-center m-1 rounded-lg flex-row bg-tc2 shadow-xl">
         <img className="object-cover h-48 w-100 rounded-s-lg" src={game.header_image} />
         <div className="flex flex-col justify-between p-3 leading-normal w-[45%]">
           <h5 className="mb-2 text-xl font-bold tracking-tight text-white">{game.name}</h5>
